@@ -1,0 +1,14 @@
+{
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "kaggle-ranker",
+	"main": "src/index.ts",
+	"compatibility_date": "2025-10-24",
+	"observability": {
+		"enabled": true
+	},
+	"triggers": {
+		"crons": [
+			"0 3 * * *" // Run daily at 3:00 AM UTC (adjust as needed)
+		]
+	}
+}

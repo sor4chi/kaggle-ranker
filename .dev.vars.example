@@ -1,0 +1,45 @@
+# Kaggle API Credentials
+# Get your credentials from https://www.kaggle.com/settings/account
+# Click "Create New API Token" to download kaggle.json
+KAGGLE_USERNAME=your_kaggle_username
+KAGGLE_KEY=your_kaggle_api_key
+
+# Target User IDs
+# Comma-separated list of Kaggle user IDs (usernames) to track
+# Example: user1,user2,user3
+TARGET_USER_IDS=user1,user2,user3
+
+# Notifier Configuration
+# You can use Slack, Discord, or both simultaneously
+# At least one webhook URL is required
+
+# Slack Webhook URL (optional)
+# Create an Incoming Webhook at https://api.slack.com/messaging/webhooks
+SLACK_WEBHOOK_URL=https://hooks.slack.com/services/YOUR/WEBHOOK/URL
+
+# Discord Webhook URL (optional)
+# Create a webhook in Discord: Server Settings > Integrations > Webhooks
+DISCORD_WEBHOOK_URL=https://discord.com/api/webhooks/YOUR/WEBHOOK/URL
+
+# Notifier Type (optional)
+# Specify 'slack' or 'discord' to use only one
+# If not set, all configured webhooks will be used
+# NOTIFIER_TYPE=slack
+
+# Competition Filtering (optional)
+# Filter which competitions to track
+
+# Only include specific categories (comma-separated)
+# Common categories: Featured, Research, Recruitment, Masters
+# If not set, all non-permanent categories will be included
+# COMPETITION_CATEGORIES=Featured,Research,Recruitment
+
+# Exclude competitions with only "Knowledge" rewards (常設コンペ除外)
+# Set to 'false' to include knowledge-only competitions
+# Default: true
+# EXCLUDE_KNOWLEDGE_ONLY=true
+
+# Maximum years in the future for competition deadline
+# Competitions with deadlines beyond this will be excluded (常設コンペ除外)
+# Default: 2
+# MAX_DEADLINE_YEARS=2
