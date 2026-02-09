@@ -11,8 +11,8 @@ export default {
 		console.log(`Kaggle Ranker triggered at ${event.cron}`);
 
 		try {
-			if (!env.KAGGLE_USERNAME || !env.KAGGLE_KEY) {
-				throw new Error('KAGGLE_USERNAME and KAGGLE_KEY environment variables are required');
+			if (!env.KAGGLE_API_TOKEN) {
+				throw new Error('KAGGLE_API_TOKEN environment variable is required');
 			}
 
 			if (!env.TARGET_USER_IDS) {
@@ -25,7 +25,7 @@ export default {
 			const targetUserIds = env.TARGET_USER_IDS.split(',').map((id) => id.trim());
 			console.log(`Tracking ${targetUserIds.length} users: ${targetUserIds.join(', ')}`);
 
-			const kaggleClient = new KaggleClient(env.KAGGLE_USERNAME, env.KAGGLE_KEY);
+			const kaggleClient = new KaggleClient(env.KAGGLE_API_TOKEN);
 			const ranker = new KaggleRanker(kaggleClient);
 
 			console.log('Fetching user rankings...');

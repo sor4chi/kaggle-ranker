@@ -5,9 +5,8 @@ export class KaggleClient {
 	private readonly baseUrl = 'https://www.kaggle.com/api/v1';
 	private readonly authHeader: string;
 
-	constructor(username: string, key: string) {
-		const credentials = btoa(`${username}:${key}`);
-		this.authHeader = `Basic ${credentials}`;
+	constructor(apiToken: string) {
+		this.authHeader = `Bearer ${apiToken}`;
 	}
 
 	async getActiveCompetitions(): Promise<KaggleCompetition[]> {

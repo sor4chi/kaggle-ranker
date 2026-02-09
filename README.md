@@ -11,13 +11,12 @@ Cloudflare WorkersのCron Triggerを使用して、Kaggleの開催中コンペ�
 
 ## 必要な準備
 
-### 1. Kaggle API認証情報の取得
+### 1. Kaggle APIトークンの取得
 
 1. [Kaggle](https://www.kaggle.com)にログイン
-2. アカウント設定（<https://www.kaggle.com/settings/account）へ移動>
-3. "Create New API Token"ボタンをクリック
-4. `kaggle.json`ファイルがダウンロードされます
-5. ファイル内の`username`と`key`を控えておく
+2. 設定ページ（<https://www.kaggle.com/settings）へ移動>
+3. APIセクションの"Generate New Token"をクリック
+4. 表示されたAPIトークンをコピーする
 
 ### 2. 通知先の設定（いずれか必須、両方も可能）
 
@@ -61,8 +60,7 @@ cp .dev.vars.example .dev.vars
 
 ```bash
 # 必須
-KAGGLE_USERNAME=your_kaggle_username
-KAGGLE_KEY=your_kaggle_api_key
+KAGGLE_API_TOKEN=your_kaggle_api_token
 TARGET_USER_IDS=user1,user2,user3
 
 # 通知先（いずれか必須、両方設定すると両方に送信されます）
@@ -77,7 +75,7 @@ DISCORD_WEBHOOK_URL=https://discord.com/api/webhooks/YOUR/WEBHOOK/URL
 
 **必須項目：**
 
-- `KAGGLE_USERNAME`, `KAGGLE_KEY`: Kaggle APIの認証情報
+- `KAGGLE_API_TOKEN`: Kaggle APIトークン
 - `TARGET_USER_IDS`: 追跡したいKaggleのユーザーID（ユーザー名）をカンマ区切りで指定
 
 **通知設定（少なくとも1つ必須）：**
@@ -119,8 +117,7 @@ curl "http://localhost:8787/__scheduled?cron=*+*+*+*+*"
 
 ```bash
 # 必須
-wrangler secret put KAGGLE_USERNAME
-wrangler secret put KAGGLE_KEY
+wrangler secret put KAGGLE_API_TOKEN
 wrangler secret put TARGET_USER_IDS
 
 # 通知先（少なくとも1つは設定してください）
@@ -192,7 +189,7 @@ kaggle-ranker/
 
 ### 認証エラー
 
-Kaggle APIの認証情報が正しいか確認してください。`kaggle.json`の`username`と`key`を使用します。
+Kaggle APIトークンが正しいか確認してください。設定ページ（https://www.kaggle.com/settings）のAPIセクションから取得できます。
 
 ### 通知が届かない
 

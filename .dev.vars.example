@@ -1,8 +1,7 @@
-# Kaggle API Credentials
-# Get your credentials from https://www.kaggle.com/settings/account
-# Click "Create New API Token" to download kaggle.json
-KAGGLE_USERNAME=your_kaggle_username
-KAGGLE_KEY=your_kaggle_api_key
+# Kaggle API Token
+# Get your API token from https://www.kaggle.com/settings
+# Click "Create New Token" under the API section
+KAGGLE_API_TOKEN=your_kaggle_api_token
 
 # Target User IDs
 # Comma-separated list of Kaggle user IDs (usernames) to track

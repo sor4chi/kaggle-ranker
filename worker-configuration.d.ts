@@ -6,8 +6,7 @@ declare namespace Cloudflare {
 		mainModule: typeof import("./src/index");
 	}
 	interface Env {
-		KAGGLE_USERNAME: string;
-		KAGGLE_KEY: string;
+		KAGGLE_API_TOKEN: string;
 		TARGET_USER_IDS: string;
 		DISCORD_WEBHOOK_URL: string;
 		NOTIFIER_TYPE: string;
