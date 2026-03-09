@@ -1,19 +1,21 @@
 import type { KaggleCompetition } from './types';
+import type { Logger } from '../logger';
 import { unzipSync } from 'fflate';
 
 export class KaggleClient {
 	private readonly baseUrl = 'https://www.kaggle.com/api/v1';
 	private readonly authHeader: string;
 
-	constructor(apiToken: string) {
+	constructor(
+		apiToken: string,
+		private readonly logger: Logger
+	) {
 		this.authHeader = `Bearer ${apiToken}`;
 	}
 
 	async getActiveCompetitions(): Promise<KaggleCompetition[]> {
 		const response = await fetch(`${this.baseUrl}/competitions/list`, {
-			headers: {
-				Authorization: this.authHeader,
-			},
+			headers: { Authorization: this.authHeader },
 		});
 
 		if (!response.ok) {
@@ -22,23 +24,15 @@ export class KaggleClient {
 
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		const competitions: any[] = await response.json();
-
 		const now = new Date();
 
 		const filtered = competitions
 			.filter((comp) => {
 				if (!comp.deadline) return false;
-
-				const deadline = new Date(comp.deadline);
-				if (deadline < now) return false;
+				if (new Date(comp.deadline) < now) return false;
 
 				const category = comp.category || comp.categoryNullable || '';
-
-				if (category === 'Getting Started' || category === 'Playground') {
-					return false;
-				}
-
-				return true;
+				return category !== 'Getting Started' && category !== 'Playground';
 			})
 			.map((comp) => {
 				const urlParts = comp.url?.split('/') || [];
@@ -56,9 +50,9 @@ export class KaggleClient {
 				};
 			});
 
-		console.log(`Filtered ${filtered.length} active competitions from ${competitions.length} total`);
+		this.logger.info(`Filtered ${filtered.length} active competitions from ${competitions.length} total`);
 		if (filtered.length > 0) {
-			console.log(
+			this.logger.info(
 				'Active competitions:',
 				filtered.map((c) => `${c.title} (${c.category}, ${c.reward})`)
 			);
@@ -68,12 +62,10 @@ export class KaggleClient {
 	}
 
 	async downloadLeaderboard(competitionId: string): Promise<string> {
-		console.log(`Downloading complete leaderboard for ${competitionId}...`);
+		this.logger.info(`Downloading leaderboard for ${competitionId}...`);
 
 		const response = await fetch(`${this.baseUrl}/competitions/${competitionId}/leaderboard/download`, {
-			headers: {
-				Authorization: this.authHeader,
-			},
+			headers: { Authorization: this.authHeader },
 		});
 
 		if (!response.ok) {
@@ -91,14 +83,14 @@ export class KaggleClient {
 				throw new Error(`No CSV file found in ZIP archive for ${competitionId}`);
 			}
 
-			console.log(`Extracted ${csvFileName} from ZIP archive`);
+			this.logger.info(`Extracted ${csvFileName} from ZIP archive`);
 
 			const csvData = new TextDecoder().decode(unzipped[csvFileName]);
-			console.log(`Successfully downloaded ${csvData.split('\n').length - 1} rows for ${competitionId}`);
+			this.logger.info(`Downloaded ${csvData.split('\n').length - 1} rows for ${competitionId}`);
 
 			return csvData;
 		} catch (error) {
-			console.error(`Failed to unzip leaderboard for ${competitionId}:`, error);
+			this.logger.error(`Failed to unzip leaderboard for ${competitionId}:`, error);
 			throw new Error(
 				`Failed to extract leaderboard CSV from ZIP: ${error instanceof Error ? error.message : String(error)}`
 			);

@@ -1,16 +1,11 @@
+# ====================
+# Secrets (CFW Secrets)
+# ====================
+
 # Kaggle API Token
 # Get your API token from https://www.kaggle.com/settings
 # Click "Create New Token" under the API section
 KAGGLE_API_TOKEN=your_kaggle_api_token
-
-# Target User IDs
-# Comma-separated list of Kaggle user IDs (usernames) to track
-# Example: user1,user2,user3
-TARGET_USER_IDS=user1,user2,user3
-
-# Notifier Configuration
-# You can use Slack, Discord, or both simultaneously
-# At least one webhook URL is required
 
 # Slack Webhook URL (optional)
 # Create an Incoming Webhook at https://api.slack.com/messaging/webhooks
@@ -20,25 +15,34 @@ SLACK_WEBHOOK_URL=https://hooks.slack.com/services/YOUR/WEBHOOK/URL
 # Create a webhook in Discord: Server Settings > Integrations > Webhooks
 DISCORD_WEBHOOK_URL=https://discord.com/api/webhooks/YOUR/WEBHOOK/URL
 
-# Notifier Type (optional)
-# Specify 'slack' or 'discord' to use only one
-# If not set, all configured webhooks will be used
-# NOTIFIER_TYPE=slack
+# Google Service Account Key (required for spreadsheet provider)
+# JSON string of the service account credentials
+# GOOGLE_SERVICE_ACCOUNT_KEY={"client_email":"...","private_key":"..."}
 
-# Competition Filtering (optional)
-# Filter which competitions to track
+# ====================
+# Config Provider
+# ====================
 
-# Only include specific categories (comma-separated)
-# Common categories: Featured, Research, Recruitment, Masters
-# If not set, all non-permanent categories will be included
-# COMPETITION_CATEGORIES=Featured,Research,Recruitment
+# Select where operational config (e.g. member IDs) comes from
+# 'env' = environment variables (default)
+# 'spreadsheet' = Google Spreadsheet
+CONFIG_PROVIDER=env
 
-# Exclude competitions with only "Knowledge" rewards (常設コンペ除外)
-# Set to 'false' to include knowledge-only competitions
-# Default: true
-# EXCLUDE_KNOWLEDGE_ONLY=true
+# ====================
+# Config: env provider
+# ====================
 
-# Maximum years in the future for competition deadline
-# Competitions with deadlines beyond this will be excluded (常設コンペ除外)
-# Default: 2
-# MAX_DEADLINE_YEARS=2
+# Target User IDs
+# Comma-separated list of Kaggle user IDs (usernames) to track
+TARGET_USER_IDS=user1,user2,user3
+
+# ====================
+# Config: spreadsheet provider
+# ====================
+
+# Google Spreadsheet ID
+# The ID from the spreadsheet URL: https://docs.google.com/spreadsheets/d/{SPREADSHEET_ID}/edit
+# SPREADSHEET_ID=your_spreadsheet_id
+
+# Sheet name (optional, default: Sheet1)
+# SHEET_NAME=Sheet1

@@ -6,10 +6,21 @@ declare namespace Cloudflare {
 		mainModule: typeof import("./src/index");
 	}
 	interface Env {
+		// Secrets (CFW Secrets)
 		KAGGLE_API_TOKEN: string;
-		TARGET_USER_IDS: string;
-		DISCORD_WEBHOOK_URL: string;
-		NOTIFIER_TYPE: string;
+		SLACK_WEBHOOK_URL?: string;
+		DISCORD_WEBHOOK_URL?: string;
+		GOOGLE_SERVICE_ACCOUNT_KEY?: string;
+
+		// Config provider selection
+		CONFIG_PROVIDER?: string; // 'env' | 'spreadsheet' (default: 'env')
+
+		// Config: env provider
+		TARGET_USER_IDS?: string;
+
+		// Config: spreadsheet provider
+		SPREADSHEET_ID?: string;
+		SHEET_NAME?: string;
 	}
 }
 interface Env extends Cloudflare.Env {}
